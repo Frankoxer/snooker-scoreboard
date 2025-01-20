@@ -114,6 +114,33 @@ void Window::updateScoreLabels() {
     player2CurrentScoreLabel->show();
 }
 
+void Window::updateBreakLabels(unsigned int player1_break, unsigned int player2_break) {
+    if(player1CurrentBreakLabel) {
+        delete player1CurrentBreakLabel;
+        player1CurrentBreakLabel = nullptr;
+    }
+    if(player2CurrentBreakLabel) {
+        delete player2CurrentBreakLabel;
+        player2CurrentBreakLabel = nullptr;
+    }
+
+    // 选手 1 当前局最高分
+    player1CurrentBreakLabel = new QLabel(QString::number(player1_break), this);
+    QFont currentBreakFont("SF Pro", 28);
+    currentBreakFont.setLetterSpacing(QFont::AbsoluteSpacing, spacing);
+    player1CurrentBreakLabel->setFont(currentBreakFont);
+    player1CurrentBreakLabel->setAlignment(Qt::AlignRight);
+    player1CurrentBreakLabel->setGeometry(width() / 2 - 70 - 200, 230, 200, 30); // Adjust the position and size
+    player1CurrentBreakLabel->show();
+
+    // 选手 2 当前局最高分
+    player2CurrentBreakLabel = new QLabel(QString::number(player2_break), this);
+    player2CurrentBreakLabel->setFont(currentBreakFont);
+    player2CurrentBreakLabel->setAlignment(Qt::AlignLeft);
+    player2CurrentBreakLabel->setGeometry(width() / 2 + 70, 230, 200, 30); // Adjust the position and size
+    player2CurrentBreakLabel->show();
+}
+
 void Window::foulRecolor(bool isFoul) {
     std::cout << "foulRecolor: isFoul = " << isFoul << std::endl;
     if (isPlayer1) {
@@ -267,17 +294,30 @@ void Window::initializeMatch(Match match, Frame frame, bool isPlayer1) {
     pointsLabel->setGeometry(width() / 2 - 50, 180, 100, 30); // Adjust the position and size
     pointsLabel->show();
 
+    updateBreakLabels(0, 0);
+
+    // BREAK 标签
+    QLabel *breakLabel = new QLabel("BREAK", this);
+    QFont breakTextFont("SF Pro", 20, QFont::Bold);
+    breakTextFont.setLetterSpacing(QFont::AbsoluteSpacing, spacing);
+    breakLabel->setFont(breakTextFont);
+    breakLabel->setAlignment(Qt::AlignCenter);
+    breakLabel->setGeometry(width() / 2 - 50, 230, 100, 30); // Adjust the position and size
+    breakLabel->show();
+
     // 当前操作选手状态
     updateIsPlayer1();
 }
 
-void Window::updateFrame(Frame frame, bool isPlayer1) {
+void Window::updateFrame(Frame frame, bool isPlayer1, unsigned int player1_break, unsigned int player2_break) {
     currentFrame = frame;
     this->isPlayer1 = isPlayer1;
     // 根据 isPlayer1 更改选手状态
     updateIsPlayer1();
     // 更新选手得分
     updateScoreLabels();
+    // 更新选手单杆得分
+    updateBreakLabels(player1_break, player2_break);
 }
 
 void Window::keyPressEvent(QKeyEvent *event) {

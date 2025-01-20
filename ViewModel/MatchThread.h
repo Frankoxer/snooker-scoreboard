@@ -20,9 +20,11 @@ private:
     Frame currentFrame;
     bool isPlayer1 = true;
     bool isFoul = false;
+    unsigned int player1_break = 0;
+    unsigned int player2_break = 0;
 signals:
     void initializeMatch(Match match, Frame frame, bool isPlayer1);
-    void updateFrame(Frame frame, bool isPlayer1);
+    void updateFrame(Frame frame, bool isPlayer1, unsigned int player1_break, unsigned int player2_break);
     void foulRecolor(bool isFoul);
 public slots:
     void switchPlayer();
