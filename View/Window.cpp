@@ -125,7 +125,7 @@ void Window::updateBreakLabels(unsigned int player1_break, unsigned int player2_
     }
 
     // 选手 1 当前局最高分
-    player1CurrentBreakLabel = new QLabel(QString::number(player1_break), this);
+    player1CurrentBreakLabel = new QLabel(QString::number(player1_break) + "(" + QString::number(currentFrame.player1_max_break) + ")", this);
     QFont currentBreakFont("SF Pro", 28);
     currentBreakFont.setLetterSpacing(QFont::AbsoluteSpacing, spacing);
     player1CurrentBreakLabel->setFont(currentBreakFont);
@@ -134,7 +134,7 @@ void Window::updateBreakLabels(unsigned int player1_break, unsigned int player2_
     player1CurrentBreakLabel->show();
 
     // 选手 2 当前局最高分
-    player2CurrentBreakLabel = new QLabel(QString::number(player2_break), this);
+    player2CurrentBreakLabel = new QLabel("(" + QString::number(currentFrame.player2_max_break) + ")" + QString::number(player2_break), this);
     player2CurrentBreakLabel->setFont(currentBreakFont);
     player2CurrentBreakLabel->setAlignment(Qt::AlignLeft);
     player2CurrentBreakLabel->setGeometry(width() / 2 + 70, 230, 200, 30); // Adjust the position and size
@@ -358,7 +358,7 @@ void Window::keyPressEvent(QKeyEvent *event) {
             std::cout << "Key Backspace Pressed" << std::endl;
             emit keyBackSpacePressed();
             break;
-        case Qt::Key_Enter:
+        case Qt::Key_Return:
             std::cout << "Key Enter Pressed" << std::endl;
             emit keyEnterPressed();
             break;

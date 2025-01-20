@@ -65,22 +65,22 @@ void MatchThread::addScore(int score) {
             player1_break += score;
         } else {
             currentFrame.player2_points += score;
-            currentFrame.player1_max_break = player1_break > currentFrame.player1_max_break ? player1_break : currentFrame.player1_max_break;
             player1_break = 0;
             isPlayer1 = !isPlayer1;
             isFoul = false;
         }
+        currentFrame.player1_max_break = player1_break > currentFrame.player1_max_break ? player1_break : currentFrame.player1_max_break;
     } else {
         if(!isFoul) {
             currentFrame.player2_points += score;
             player2_break += score;
         } else {
             currentFrame.player1_points += score;
-            currentFrame.player2_max_break = player2_break > currentFrame.player2_max_break ? player2_break : currentFrame.player2_max_break;
             player2_break = 0;
             isPlayer1 = !isPlayer1;
             isFoul = false;
         }
+        currentFrame.player2_max_break = player2_break > currentFrame.player2_max_break ? player2_break : currentFrame.player2_max_break;
     }
     emit updateFrame(currentFrame, isPlayer1, player1_break, player2_break);
 }
