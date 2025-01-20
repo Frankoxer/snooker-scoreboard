@@ -41,6 +41,44 @@ QString Window::matchTypeToString(MatchType type) {
     }
 }
 
+void Window::updateFrameNumber() {
+    if(player1FramesLabel) {
+        delete player1FramesLabel;
+        player1FramesLabel = nullptr;
+    }
+    if(player2FramesLabel) {
+        delete player2FramesLabel;
+        player2FramesLabel = nullptr;
+    }
+
+    unsigned int player1_frames = 0;
+    unsigned int player2_frames = 0;
+
+    for(auto it = match.frame_list.begin(); it != match.frame_list.end(); it++) {
+        if(it->player1_points > it->player2_points) {
+            player1_frames++;
+        } else {
+            player2_frames++;
+        }
+    }
+    // 选手 1 获胜局数
+    player1FramesLabel = new QLabel(QString::number(player1_frames), this);
+    QFont framesFont("SF Pro", 26);
+    framesFont.setLetterSpacing(QFont::AbsoluteSpacing, spacing);
+    player1FramesLabel->setFont(framesFont);
+    player1FramesLabel->setAlignment(Qt::AlignRight);
+    player1FramesLabel->setGeometry(width() / 2 - 70 - 200, 130, 200, 32); // Adjust the position and size
+    player1FramesLabel->show();
+
+    // 选手 2 获胜局数
+    player2FramesLabel = new QLabel(QString::number(player2_frames), this);
+    player2FramesLabel->setFont(framesFont);
+    player2FramesLabel->setAlignment(Qt::AlignLeft);
+    player2FramesLabel->setGeometry(width() / 2 + 70, 130, 200, 32); // Adjust the position and size
+    player2FramesLabel->show();
+}
+
+
 void Window::updateIsPlayer1() {
     std::cout << "updateIsPlayer1: isPlayer1 = " << isPlayer1 << std::endl;
     // Remove previous circle labels if they exist
@@ -249,21 +287,7 @@ void Window::initializeMatch(Match match, Frame frame, bool isPlayer1) {
     player2LastNameLabel->setGeometry(width() / 2 + 70, 90, 200, 30); // Adjust the position and size
     player2LastNameLabel->show();
 
-    // 选手 1 获胜局数
-    QLabel *player1FramesLabel = new QLabel(QString::number(match.player1_frames), this);
-    QFont framesFont("SF Pro", 26);
-    framesFont.setLetterSpacing(QFont::AbsoluteSpacing, spacing);
-    player1FramesLabel->setFont(framesFont);
-    player1FramesLabel->setAlignment(Qt::AlignRight);
-    player1FramesLabel->setGeometry(width() / 2 - 70 - 200, 130, 200, 32); // Adjust the position and size
-    player1FramesLabel->show();
-
-    // 选手 2 获胜局数
-    QLabel *player2FramesLabel = new QLabel(QString::number(match.player2_frames), this);
-    player2FramesLabel->setFont(framesFont);
-    player2FramesLabel->setAlignment(Qt::AlignLeft);
-    player2FramesLabel->setGeometry(width() / 2 + 70, 130, 200, 32); // Adjust the position and size
-    player2FramesLabel->show();
+    updateFrameNumber();
 
     // FRAMES 标签
     QLabel *framesLabel = new QLabel("FRAMES", this);
@@ -318,6 +342,17 @@ void Window::updateFrame(Frame frame, bool isPlayer1, unsigned int player1_break
     updateScoreLabels();
     // 更新选手单杆得分
     updateBreakLabels(player1_break, player2_break);
+}
+
+void Window::showNewFrame(Match match, Frame frame) {
+    this->match = match;
+    currentFrame = frame;
+    this->isPlayer1 = true;
+    updateScoreLabels();
+    updateBreakLabels(0, 0);
+    updateFrameNumber();
+    updateIsPlayer1();
+    updateBreakLabels(0, 0);
 }
 
 void Window::keyPressEvent(QKeyEvent *event) {

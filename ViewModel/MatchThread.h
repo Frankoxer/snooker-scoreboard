@@ -26,6 +26,7 @@ signals:
     void initializeMatch(Match match, Frame frame, bool isPlayer1);
     void updateFrame(Frame frame, bool isPlayer1, unsigned int player1_break, unsigned int player2_break);
     void foulRecolor(bool isFoul);
+    void showNewFrame(Match match, Frame frame);
 public slots:
     void switchPlayer();
     void addScore(int score);

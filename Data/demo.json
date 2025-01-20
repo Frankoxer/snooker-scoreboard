@@ -1,19 +1,17 @@
 {
+    "FrameList": [
+
+    ],
+    "Match": {
+        "frames": 19,
+        "round": "FINAL"
+    },
     "player1": {
-      "firstName": "Kyren",
-      "lastName": "Wilson"
+        "firstName": "Kyren",
+        "lastName": "Wilson"
     },
     "player2": {
         "firstName": "Shaun",
         "lastName": "Murphy"
-    },
-    "Match": {
-        "round": "FINAL",
-        "frames": 19,
-        "player1frames": 0,
-        "player2frames": 0
-    },
-    "Frame": {
-
     }
 }

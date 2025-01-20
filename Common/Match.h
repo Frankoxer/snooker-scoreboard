@@ -31,8 +31,6 @@ public:
     name player2_name;
     MatchType round;
     unsigned int frames;
-    unsigned int player1_frames;
-    unsigned int player2_frames;
     std::vector<Frame> frame_list;
 
     Match() {
@@ -40,8 +38,6 @@ public:
         player2_name = {"Steve", "Davis"};
         round = MatchType::LAST_128;
         frames = 9;
-        player1_frames = 0;
-        player2_frames = 0;
         frame_list = std::vector<Frame>();
     }
 };

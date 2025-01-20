@@ -27,6 +27,8 @@ private:
     Ui::Window *ui;
     Match match;
     Frame currentFrame;
+    QLabel *player1FramesLabel = nullptr;
+    QLabel *player2FramesLabel = nullptr;
     QLabel *player1CircleLabel = nullptr;
     QLabel *player2CircleLabel = nullptr;
     QLabel *player1CurrentScoreLabel = nullptr;
@@ -36,6 +38,7 @@ private:
     bool isPlayer1;
     QString matchTypeToString(MatchType type);
     void keyPressEvent(QKeyEvent *event) override;
+    void updateFrameNumber();
     void updateIsPlayer1();
     void updateScoreLabels();
     void updateBreakLabels(unsigned int player1_break, unsigned int player2_break);
@@ -44,6 +47,7 @@ public slots:
     void initializeMatch(Match match, Frame frame, bool isPlayer1);
     void updateFrame(Frame frame, bool isPlayer1, unsigned int player1_break, unsigned int player2_break);
     void foulRecolor(bool isFoul);
+    void showNewFrame(Match match, Frame frame);
 
 signals:
     void keyScorePressed(int score);

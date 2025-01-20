@@ -4,6 +4,7 @@
 
 #include "MatchThread.h"
 #include <fstream>
+#include <iostream>
 
 void MatchThread::initialize() {
     // 使用 json.hpp 解析库解析 Data/demo.json 文件
@@ -27,10 +28,8 @@ void MatchThread::initialize() {
     else if (round == "FINAL") match.round = MatchType::FINAL;
 
     match.frames = j["Match"]["frames"];
-    match.player1_frames = j["Match"]["player1frames"];
-    match.player2_frames = j["Match"]["player2frames"];
 
-    for (const auto& frame : j["frames"]) {
+    for (const auto& frame : j["FrameList"]) {
         Frame f;
         f.player1_points = frame["player1Points"];
         f.player1_max_break = frame["player1MaxBreak"];
@@ -93,15 +92,51 @@ void MatchThread::foul() {
 void MatchThread::endOfFrame() {
     match.frame_list.push_back(currentFrame);
     unsigned int winner = currentFrame.player1_points > currentFrame.player2_points ? 1 : 2;
-    if(winner == 1) {
-        match.player1_frames++;
-    } else {
-        match.player2_frames++;
+
+    std::cout << "End of frame, winner is player " << winner << std::endl;
+
+    // 将数据写回 json 文件，只用更新 match 中的 frames 和 FrameList 即可
+    // Read the existing JSON data
+    std::ifstream i("../Data/demo.json");
+    nlohmann::json j;
+    i >> j;
+
+
+    // Update the FrameList information
+    j["FrameList"] = nlohmann::json::array();
+    for (const auto& frame : match.frame_list) {
+        nlohmann::json f;
+        f["player1Points"] = frame.player1_points;
+        f["player1MaxBreak"] = frame.player1_max_break;
+        f["player2Points"] = frame.player2_points;
+        f["player2MaxBreak"] = frame.player2_max_break;
+        j["FrameList"].push_back(f);
     }
-    if(match.player1_frames == match.frames/2 + 1 || match.player2_frames == match.frames/2 + 1) {
+
+    // Write the updated JSON data back to the file
+    std::ofstream o("../Data/demo.json");
+    o << j.dump(4) << std::endl;
+
+    unsigned int player1_frames = 0;
+    unsigned int player2_frames = 0;
+
+    for(auto it = match.frame_list.begin(); it != match.frame_list.end(); it++) {
+        if(it->player1_points > it->player2_points) {
+            player1_frames++;
+        } else {
+            player2_frames++;
+        }
+    }
+
+    if(player1_frames == match.frames/2 + 1 || player2_frames == match.frames/2 + 1) {
         // End of match
     } else {
         // Start a new frame
         currentFrame = Frame();
+        isPlayer1 = true;
+        isFoul = false;
+        player1_break = 0;
+        player2_break = 0;
+        emit showNewFrame(match, currentFrame);
     }
 }
