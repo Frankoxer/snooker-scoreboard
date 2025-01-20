@@ -1,2 +1,16 @@
 # snooker-scoreboard
-A toy snooker scoreboard project using Qt6 and C++.
+
+**仍在开发中。**
+
+## 开发环境
+
+Mac + CLion + Qt6
+
+## 操作指南
+
+键盘操作：
+
+- `1`~`7`：分别输入 1~7 分
+- `F`：犯规，指示灯变红色，接着输入分数，给对方加分
+- `Space`：切换当前操作的选手
+- `Enter`：结束当前局，切换到下一局
