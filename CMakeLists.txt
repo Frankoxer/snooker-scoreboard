@@ -13,7 +13,23 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(snooker_scoreboard main.cpp)
+include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/Common
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib
+)
+
+add_executable(snooker_scoreboard main.cpp
+        Common/Match.h
+        Common/Frame.h
+        App/GameApp.cpp
+        App/GameApp.h
+        View/Window.cpp
+        View/Window.h
+        View/Window.ui
+        ViewModel/MatchThread.cpp
+        ViewModel/MatchThread.h
+)
 target_link_libraries(snooker_scoreboard
         Qt::Core
         Qt::Gui
