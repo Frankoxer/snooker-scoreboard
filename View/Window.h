@@ -35,6 +35,7 @@ private:
     QLabel *player2CurrentScoreLabel = nullptr;
     QLabel *player1CurrentBreakLabel = nullptr;
     QLabel *player2CurrentBreakLabel = nullptr;
+    QPalette whiteTextPalette;
     bool isPlayer1;
     QString matchTypeToString(MatchType type);
     void keyPressEvent(QKeyEvent *event) override;
