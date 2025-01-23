@@ -239,7 +239,7 @@ void Window::initializeMatch(Match match, Frame frame, bool isPlayer1) {
     title_background->show();
 
     // 赛事名称
-    QLabel *titleLabel = new QLabel("Masters 2025", this);
+    QLabel *titleLabel = new QLabel(QString::fromStdString(match.tournament_name), this);
     QFont titleFont("SF Pro", 20, QFont::Bold);
     titleFont.setLetterSpacing(QFont::AbsoluteSpacing, spacing);
     titleLabel->setFont(titleFont);

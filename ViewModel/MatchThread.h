@@ -14,7 +14,6 @@ class MatchThread : public QObject {
     Q_OBJECT
 public:
     void initialize();
-    void run();
 private:
     Match match;
     Frame currentFrame;

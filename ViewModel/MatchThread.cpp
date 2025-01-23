@@ -17,6 +17,7 @@ void MatchThread::initialize() {
     match.player1_name.last_name = j["player1"]["lastName"];
     match.player2_name.first_name = j["player2"]["firstName"];
     match.player2_name.last_name = j["player2"]["lastName"];
+    match.tournament_name = j["tournamentName"];
 
     std::string round = j["Match"]["round"];
     if (round == "LAST_128") match.round = MatchType::LAST_128;
@@ -41,11 +42,6 @@ void MatchThread::initialize() {
     currentFrame = Frame();
 
     emit initializeMatch(match, currentFrame, isPlayer1);
-}
-
-void MatchThread::run() {
-    // Initialize the frame
-    unsigned int frame_number = match.frame_list.size() + 1;
 }
 
 void MatchThread::switchPlayer() {

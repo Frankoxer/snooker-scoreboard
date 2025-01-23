@@ -27,6 +27,7 @@ struct name {
 
 class Match {
 public:
+    std::string tournament_name;
     name player1_name;
     name player2_name;
     MatchType round;
@@ -34,10 +35,11 @@ public:
     std::vector<Frame> frame_list;
 
     Match() {
-        player1_name = {"Alex", "Higgins"};
-        player2_name = {"Steve", "Davis"};
-        round = MatchType::LAST_128;
-        frames = 9;
+        tournament_name = "World Championship 1985";
+        player1_name = {"Steve", "Davis"};
+        player2_name = {"Dennis", "Taylor"};
+        round = MatchType::FINAL;
+        frames = 35;
         frame_list = std::vector<Frame>();
     }
 };
